@@ -15,10 +15,10 @@ app.use(cors());
 
 // Create a connection pool for better connection handling
 const db = mysql.createPool({
-  host: 'localhost',  // In production, use the actual database host
+  host: 'mysql.railway.internal',  // In production, use the actual database host
   user: 'root',
-  password: 'Namanmadan.22',  // Consider using environment variables for sensitive info
-  database: 'form_data',
+  password: 'nwNalIXegjVnGzEdPRwhuxzNumvqJqyP',  // Consider using environment variables for sensitive info
+  database: 'railway',
   waitForConnections: true,
   connectionLimit: 10,  // Adjust this value as needed
   queueLimit: 0
