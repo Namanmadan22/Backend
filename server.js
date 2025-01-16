@@ -56,6 +56,9 @@ app.post('/submit-penalty', (req, res) => {
 
   res.json({ message: 'Penalty data submitted successfully.' });
 });
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
 
 // Start the server
 app.listen(port, () => {
