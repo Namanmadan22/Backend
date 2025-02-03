@@ -19,9 +19,9 @@ app.use(cors(corsOptions));
 
 // MySQL connection pool
 const db = mysql.createPool({
-  host: 'mysql.railway.internal',
-  user: 'root',
-  password: 'your-password',  // Secure it using environment variables
+  host: 'my-database.c1yc8mu0ywjc.ap-south-1.rds.amazonaws.com',
+  user: 'my-database',
+  password: 'Namanmadan.22',  // Secure it using environment variables
   database: 'railway',
   waitForConnections: true,
   connectionLimit: 10,
