@@ -53,7 +53,8 @@ app.post('/submit-penalty', (req, res) => {
         if (err) {
           console.error('Error inserting penalty data:', err);
           res.status(500).json({ message: 'Error inserting penalty data.' });
-          return;  // Stop further execution on error
+        }else{
+          console.log('✅ Data successfully inserted:', result);
         }
       });
     });
