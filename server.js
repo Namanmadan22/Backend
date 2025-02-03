@@ -8,7 +8,7 @@ const port = process.env.PORT || 3001;
 
 // CORS configuration to allow your frontend's origin
 const corsOptions = {
-  origin: 'https://your-frontend.github.io',  // Replace with your actual frontend URL
+  origin: 'https://frontend-jci9.onrender.com',  // Replace with your actual frontend Render URL
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 };
