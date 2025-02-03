@@ -9,9 +9,15 @@ const app = express();
 // Use the environment variable for port or fallback to 3001 locally
 const port = process.env.PORT || 3001;  // Render will use the dynamic port
 
-// Middleware
+// CORS Configuration: Allow frontend to make requests from specific origin
+app.use(cors({
+  origin: 'https://namanmadan22.github.io/Frontend/',  // Replace with your actual frontend URL
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
+
+// Middleware to parse JSON requests
 app.use(bodyParser.json());
-app.use(cors());
 
 // Create a connection pool for better connection handling
 const db = mysql.createPool({
@@ -21,20 +27,22 @@ const db = mysql.createPool({
   database: 'railway',
   waitForConnections: true,
   connectionLimit: 10,  // Adjust this value as needed
-  queueLimit: 0
+  queueLimit: 0,
 });
 
 // Route to handle SLA penalties submission
 app.post('/submit-penalty', (req, res) => {
   const penaltyData = req.body;
 
+  // Iterate over the submitted data
   penaltyData.forEach(entry => {
     const { project, slaBreach, penaltyAmount, issues } = entry;
 
-    // Loop through each issue and calculate penalty
+    // Calculate total cases and penalty per case
     let totalCases = issues.reduce((sum, issue) => sum + issue.caseCount, 0);
     let perCasePenalty = totalCases ? penaltyAmount / totalCases : 0;
 
+    // Process each issue and calculate the penalty
     issues.forEach(issue => {
       const { issueType, caseCount } = issue;
       const issuePenalty = perCasePenalty * caseCount;
@@ -49,13 +57,18 @@ app.post('/submit-penalty', (req, res) => {
       db.query(sql, values, (err, result) => {
         if (err) {
           console.error('Error inserting penalty data:', err);
+          res.status(500).json({ message: 'Error inserting penalty data.' });
+          return;  // Stop further execution on error
         }
       });
     });
   });
 
+  // Respond with a success message once all data is processed
   res.json({ message: 'Penalty data submitted successfully.' });
 });
+
+// Simple route to check if backend is running
 app.get('/', (req, res) => {
   res.send('Backend is running');
 });
